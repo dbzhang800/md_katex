@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="md-katex",
-    version="0.1",
+    version="0.2",
     description="A Markdown extension for rendering LaTeX math using Katex",
     author="Debao Zhang",
     author_email="hello@debao.me",

@@ -2,96 +2,36 @@
 
 ![Build Status](https://github.com/dbzhang800/md_katex/actions/workflows/python-package.yml/badge.svg)
 
-> **md_katex** is a KaTeX plugin originally designed for personal blog use with pelican. It aims to render formulas using the KaTeX JavaScript file in the browser, instead of performing offline conversion.
+**md_katex** is a KaTeX plugin initially developed for use in personal blogs with **Pelican**. It focuses on rendering mathematical formulas directly in the browser using the KaTeX JavaScript library, rather than performing offline conversions.
 
 ### Features
 
-- **Browser-side Rendering**: Unlike other plugins, this one does not perform offline conversion. Formula rendering is handled by the KaTeX JavaScript file in the browser, simplifying the publishing process.
+- **Client-Side Rendering**: Unlike other plugins, **md_katex** does not convert formulas offline. Instead, the KaTeX JavaScript file in the browser handles the rendering, making the publishing process simpler and more efficient.
 - **Supports Multiple Formula Delimiter Styles**:
-  - **GitLab Style**: Uses `` $` `` and `` `$ `` as inline formula delimiters, and `~~~math` code blocks for block-level formulas.
-  - **Brackets Style**: Uses `\(` and `\)` as inline formula delimiters, and `\[ ... \]` as block-level formula delimiters.
-  
-- **Unified Output Format**: After Markdown is converted to HTML, all formulas will use the Brackets style delimiters and will be rendered via JavaScript.
+  - **GitLab Style**: Use `` $` `` and `` `$ `` for inline formulas, and `~~~math` code blocks for block-level formulas.
+  - **Brackets Style**: Use `\(` and `\)` for inline formulas, and `\[` and `\]` for block-level formulas.
+  - **GitHub Style**: Use `$$` as both the opening and closing delimiters for block-level formulas.
 
-### Usage
-
-In your python script :
-
-~~~python
-# Function to generate the HTML
-def generate_html_with_katex(markdown_content: str) -> str:
-    # Register the custom extension
-    md = Markdown(extensions=[MdKatexExtension()])
-
-    # Convert the Markdown content to HTML
-    html_body = md.convert(markdown_content)
-
-    # Define the full HTML structure, including KaTeX CSS and JS
-    full_html = f"""
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>KaTeX Math Example</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
-    </head>
-    <body>
-        {html_body}
-    </body>
-    </html>
-    """
-    return full_html
-
-if __name__ == '__main__':
-    # Example Markdown content with KaTeX formulas
-
-    from markdown import Markdown
-
-    markdown_content = r"""
-# Md_KaTeX Math Example
-
-Gitlab style inline formula: $`E=mc^2`$
-
-Brackets style inline formula: \(E=mc^2\)
-
-Gitlab style block formula:
-
-```math
-\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
-```
-
-Brackets style block formula:
-
-\[
-\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
-\]
-
-"""
-
-    # Generate the HTML content
-    html_content = generate_html_with_katex(markdown_content)
-
-    # Write the HTML to a file
-    with open("katex_example.html", "w", encoding="utf-8") as f:
-        f.write(html_content)
-
-    print("HTML file 'katex_example.html' has been generated.")
-~~~
+- **Unified Output Format**: After Markdown is converted to HTML, all formulas are standardized to use the Brackets style delimiters and are rendered via JavaScript.
 
 ### Installation
 
 First, ensure that you have the `python-markdown` library installed. Then, you can install this plugin using the following command:
-
 
 ```bash
 pip install md_katex
 ```
 
 The generated HTML will include KaTeX formulas, and you will need to load KaTeX JavaScript on the frontend to complete the rendering.
+
+To ensure proper rendering, include the KaTeX script via a `<script>` tag in your HTML page. For example, using a CDN:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+onload="renderMathInElement(document.body);"></script>
+```
 
 ## References
 

@@ -51,6 +51,15 @@ class TestMdKatexExtension(unittest.TestCase):
 \]
 """,
                 "expected": '<div class="math-block">\\[\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n\\]</div>'
+            },
+                        {
+                "name": "github",
+                "input": r"""
+$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+""",
+                "expected": '<div class="math-block">\\[\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n\\]</div>'
             }
         ]
         for case in test_cases:
@@ -111,17 +120,37 @@ class TestMdKatexExtension(unittest.TestCase):
         """make sure that normal fenced code block not be processed"""
         test_cases = [
             {
-                "name": "normal",
+                "name": "normal ```math in fence code",
                 "input": r"""
 ~~~
+```math
+```
+~~~
+""",
+                "expected":"<pre><code>```math\n```\n</code></pre>"
+            },
+            {
+                "name": "normal brackets in fence code",
+                "input": r"""
+```
 \[
 \]
-~~~
+```
 """,
                 "expected":"<pre><code>\\[\n\\]\n</code></pre>"
             },
             {
-                "name": "pythoncode",
+                "name": "normal dolars in fence code",
+                "input": r"""
+~~~
+$$
+$$
+~~~
+""",
+                "expected":"<pre><code>$$\n$$\n</code></pre>"
+            },
+            {
+                "name": "python code not affected by our extension",
                 "input": r"""
 ```python
 def hello():
@@ -138,15 +167,6 @@ def hello():
             with self.subTest(case=case["name"]):
                 output = self.md.convert(case['input'])
                 self.assertEqual(case['expected'].strip(), output.strip())
-
-    #def test_postprocessor(self):
-    #    """CSS and JS files of katex"""
-    #    input_text = "This is an inline formula: $`E=mc^2`$."
-    #    output = self.md.convert(input_text)
-    #    
-    #    self.assertIn('<link rel="stylesheet"', output)
-    #    self.assertIn('<script defer src="https://cdn.jsdelivr.net/npm/katex', output)
-    #    self.assertIn('renderMathInElement', output)
 
 if __name__ == '__main__':
     unittest.main()
