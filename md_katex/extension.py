@@ -288,21 +288,26 @@ if __name__ == '__main__':
     from markdown import Markdown
 
     markdown_content = r"""
-# KaTeX Math Example
+# Md_KaTeX Math Example
 
-Inline formula: \(E=mc^2\) and $`E=mc^2`$.
+$E=mc^2$
 
-This is a block formula:
+Gitlab style inline formula: $`E=mc^2`$
+
+Brackets style inline formula: \(E=mc^2\)
+
+Gitlab style block formula:
+
+```math
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+```
+
+Brackets style block formula:
 
 \[
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 \]
 
-And this is another block formula:
-
-```math
-\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
-```
 """
 
     # Generate the HTML content
