@@ -6,7 +6,7 @@ long_description = (HERE / "README.md").read_text()
 
 setup(
     name="md-katex",
-    version="0.2.1",
+    version="0.3.0",
     description="A Markdown extension for rendering LaTeX math using Katex",
     long_description=long_description,
     long_description_content_type="text/markdown",
