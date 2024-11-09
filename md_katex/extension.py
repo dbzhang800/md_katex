@@ -54,8 +54,8 @@ class InlineGitlabMathProcessor(InlineProcessor):
         math_content = m.group("formula")  # Get the inline formula content
         if math_content is not None:
             el = etree.Element('span')
-            el.set('class', 'math-inline')
-            el.text = AtomicString(f'\\({math_content}\\)')  # Wrap content with KaTeX inline formula delimiters
+            el.set('class', 'math inline')
+            el.text = AtomicString(f'{math_content}')  # Wrap content with KaTeX inline formula delimiters
             return el, m.start(0), m.end(0)
         else:
             return None, None, None
@@ -67,8 +67,8 @@ class InlineBracketsMathProcessor(InlineProcessor):
     def handleMatch(self, m, data):
         math_content = m.group(1)  # Get the inline formula content
         el = etree.Element('span')
-        el.set('class', 'math-inline')
-        el.text = AtomicString(f'\\({math_content}\\)')  # Wrap content with KaTeX inline formula delimiters
+        el.set('class', 'math inline')
+        el.text = AtomicString(f'{math_content}')  # Wrap content with KaTeX inline formula delimiters
         return el, m.start(0), m.end(0)
 
 class BlockGitlabMathProcessor(Preprocessor):
@@ -101,11 +101,11 @@ class BlockGitlabMathProcessor(Preprocessor):
         indent_text = block_math_lines[0][:indent_len]
         block_math = "\n".join(line[indent_len:] for line in block_math_lines[1:-1]).rstrip()
 
-        return '<div class="math-block">\\[\n' + block_math + '\n\\]</div>'
+        return '<div class="math display">\n' + block_math + '\n</div>'
 
     def _enclose_non_fence_block_math(self, block_math_lines: list[str]) -> str:
         block_math = "\n".join(line for line in block_math_lines[1:-1]).rstrip()
-        return '<div class="math-block">\\[\n' + block_math + '\n\\]</div>'
+        return '<div class="math display">\n' + block_math + '\n</div>'
 
     def _iter_lines(self, lines: list[str]) -> typing.Iterable[str]:
         is_in_code_fence_math     = False
@@ -202,8 +202,8 @@ class BlockBracketsMathProcessor(BlockProcessor):
                 math_content.append(blocks[block_num])
                 # Create a <div> element to wrap the math content
                 div = etree.SubElement(parent, 'div')
-                div.set('class', 'math-block')
-                div.text = AtomicString('\\[\n' + '\n'.join(math_content) + '\n\\]')
+                div.set('class', 'math display')
+                div.text = AtomicString('\n' + '\n'.join(math_content) + '\n')
 
                 # Remove used blocks
                 for i in range(0, block_num + 1):

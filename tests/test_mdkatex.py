@@ -13,17 +13,17 @@ class TestMdKatexExtension(unittest.TestCase):
             {
                 "name": "gitlab",
                 "input": "This is an inline formula: $`E=mc^2`$.",
-                "expected": r'<p>This is an inline formula: <span class="math-inline">\(E=mc^2\)</span>.</p>'
+                "expected": r'<p>This is an inline formula: <span class="math inline">E=mc^2</span>.</p>'
             },
             {
                 "name": "brackets",
                 "input": "Another formula: \\(a^2 + b^2 = c^2\\).",
-                "expected": r'<p>Another formula: <span class="math-inline">\(a^2 + b^2 = c^2\)</span>.</p>'
+                "expected": r'<p>Another formula: <span class="math inline">a^2 + b^2 = c^2</span>.</p>'
             },
             {
                 "name": "mixed",
                 "input": "Mixed: `1` ``2`` $`3`$ \\(4\\) \\(5\\) `6`.",
-                "expected": r'<p>Mixed: <code>1</code> <code>2</code> <span class="math-inline">\(3\)</span> <span class="math-inline">\(4\)</span> <span class="math-inline">\(5\)</span> <code>6</code>.</p>'
+                "expected": r'<p>Mixed: <code>1</code> <code>2</code> <span class="math inline">3</span> <span class="math inline">4</span> <span class="math inline">5</span> <code>6</code>.</p>'
             }
         ]
         for case in test_cases:
@@ -41,7 +41,7 @@ class TestMdKatexExtension(unittest.TestCase):
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 ```
 """,
-                "expected": '<div class="math-block">\\[\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n\\]</div>'
+                "expected": '<div class="math display">\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n</div>'
             },
             {
                 "name": "brackets",
@@ -50,7 +50,7 @@ class TestMdKatexExtension(unittest.TestCase):
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 \]
 """,
-                "expected": '<div class="math-block">\\[\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n\\]</div>'
+                "expected": '<div class="math display">\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n</div>'
             },
                         {
                 "name": "github",
@@ -59,7 +59,7 @@ $$
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 $$
 """,
-                "expected": '<div class="math-block">\\[\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n\\]</div>'
+                "expected": '<div class="math display">\n\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}\n</div>'
             }
         ]
         for case in test_cases:
